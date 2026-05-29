@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+
+  id        String   @id @default(cuid())
+
+  email     String   @unique
+
+  password  String
+
+  createdAt DateTime @default(now())
+
+  records RuntimeRecord[]
+
+  savedConfigs SavedConfig[]
+}
+
+model SavedConfig {
+
+  id        String   @id @default(cuid())
+
+  name      String
+
+  config    Json
+
+  createdAt DateTime @default(now())
+
+  userId    String
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model RuntimeRecord {
+
+  id        String   @id @default(cuid())
+
+  entity    String
+
+  data      Json
+
+  createdAt DateTime @default(now())
+
+  userId    String
+
+  user User @relation(fields: [userId], references: [id])
+}
