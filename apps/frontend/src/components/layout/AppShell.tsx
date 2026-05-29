@@ -1,5 +1,8 @@
-import type {ReactNode}
+import type { ReactNode }
 from "react";
+
+import { useAuthStore }
+from "../../store/authStore";
 
 interface Props {
 
@@ -15,6 +18,11 @@ export default function AppShell({
   editor,
   preview,
 }: Props) {
+
+  const logout =
+    useAuthStore(
+      (state) => state.logout
+    );
 
   return (
     <div className="
@@ -90,6 +98,17 @@ export default function AppShell({
           </div>
 
           <button
+            onClick={() => {
+
+              logout();
+
+              localStorage.removeItem(
+                "token"
+              );
+
+              window.location.reload();
+            }}
+
             className="
               bg-black
               text-white

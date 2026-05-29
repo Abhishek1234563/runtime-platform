@@ -7,6 +7,8 @@ interface AuthStore {
   setToken: (
     token: string
   ) => void;
+
+  logout: () => void;
 }
 
 export const useAuthStore =
@@ -24,5 +26,16 @@ export const useAuthStore =
       );
 
       set({ token });
+    },
+
+    logout: () => {
+
+      localStorage.removeItem(
+        "token"
+      );
+
+      set({
+        token: "",
+      });
     },
   }));
